@@ -17,23 +17,33 @@ function innerBubbleSortLoop(arr, i, madeAnySwaps, outerBubbleSortLoop) {
   if (i < arr.length - 1) {
     askIfGreaterThan(arr[i], arr[i + 1], function(isGreaterThan) {
       if (isGreaterThan === true) {
-        console.log("We are here!");
         [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+        console.log("mAs = true");
+        console.log(arr);
         madeAnySwaps = true;
-        // innerBubbleSortLoop(arr, i + 1, madeAnySwaps, outerBubbleSortLoop);
-      } else {
-        console.log("We are there?");
-        madeAnySwaps = false;
-        // innerBubbleSortLoop(arr, i + 1, madeAnySwaps, outerBubbleSortLoop);
-      }
+      } 
       innerBubbleSortLoop(arr, i + 1, madeAnySwaps, outerBubbleSortLoop);
     });
-  }   
-  // return arr; ????
+  } else {
+    return outerBubbleSortLoop(madeAnySwaps);
+  } 
 }
 
+function absurdBubbleSort(arr, sortCompletionCallback) {
+  function outerBubbleSortLoop(madeAnySwaps) {
+    if (madeAnySwaps === true) {
+      console.log(arr + "inside if!");
+      innerBubbleSortLoop(arr, 0, false, outerBubbleSortLoop);
+    } else {
+      console.log(arr + "inside else");
+      sortCompletionCallback(arr);
+    }
+  }
+  
+  outerBubbleSortLoop(madeAnySwaps = true);
+}
 
-innerBubbleSortLoop([1, 3, 2, 5, 4], 0, false, function(callback) {
-  console.log(`Your answer is: ${callback}`);
+absurdBubbleSort([3, 2, 1, 6, 4, 5], function (arr) {
+  console.log("Sorted array: " + JSON.stringify(arr));
   reader.close();
 });
